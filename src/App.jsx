@@ -6,10 +6,11 @@ import {
   ArrowLeft,
   ArrowRight,
   Bath,
-  CalendarCheck,
   Clock,
   HeartPulse,
   MapPin,
+  MessageCircle,
+  PawPrint,
   Menu,
   Microscope,
   PackageOpen,
@@ -36,8 +37,11 @@ import petShop from './assets/img/services/petShop.jpg'
 import microchip from './assets/img/services/microchip.jpg'
 import ecografia2 from './assets/img/services/ecografia2.jpg'
 import { isSupabaseConfigured, supabase } from './lib/supabase'
-import { business, whatsappUrl } from './config/business'
+import { business, createWhatsappUrl, whatsappUrl } from './config/business'
 import { CURRENT_STORE_ID } from './config/store'
+// import TypographyPreview from './components/TypographyPreview'
+import MedicalTeam from './components/MedicalTeam'
+import { medicalTeam } from './config/medicalTeam'
 import './App.css'
 
 const commerceWhatsappPhone = business.phone
@@ -48,43 +52,71 @@ const socialLinks = [
   { name: 'Instagram', url: business.instagram, icon: faInstagram },
 ]
 
+const pageMetadata = {
+  '/': {
+    title: 'Veterinaria Cueva | Atención veterinaria en San Miguel',
+    description: 'Atención veterinaria en San Miguel, Lima. Consulta una cita en Veterinaria Cueva o explora nuestra tienda y coordina tu pedido por WhatsApp.',
+  },
+  '/servicios': {
+    title: 'Servicios veterinarios en San Miguel | Veterinaria Cueva',
+    description: 'Consulta por atención veterinaria, ecografía, cirugía y baño antipulgas en Veterinaria Cueva. Coordina la atención de tu mascota en San Miguel.',
+  },
+  '/nosotros': {
+    title: 'Nosotros | Veterinaria Cueva en San Miguel',
+    description: 'Conoce la propuesta de Veterinaria Cueva: respeto por cada mascota, cercanía con su familia y cuidado responsable en San Miguel, Lima.',
+  },
+  '/tienda': {
+    title: 'Tienda para mascotas | Veterinaria Cueva',
+    description: 'Explora los productos de Veterinaria Cueva, prepara tu carrito y consulta tu pedido por WhatsApp. Confirma disponibilidad y coordina tu compra con el equipo.',
+  },
+  '/contacto': {
+    title: 'Contacto y ubicación | Veterinaria Cueva',
+    description: 'Visita Veterinaria Cueva en Federico Gallese Taricchi 895, San Miguel, Lima. Escríbenos por WhatsApp para consultar una cita y coordinar tu visita.',
+  },
+}
+
 const heroSlides = [
   {
-    title: 'Su bienestar es nuestra prioridad',
-    cta: 'Agenda una cita',
+    title: 'Su bienestar empieza contigo.',
+    cta: 'Consultar una cita',
+    href: createWhatsappUrl('Hola, quisiera consultar una cita para mi mascota en Veterinaria Cueva.'),
+    external: true,
     service: 'Atención veterinaria',
-    eyebrow: 'Atención cercana',
-    text: 'En Veterinaria Cueva nos preocupamos por el cuidado y bienestar de tus mascotas',
+    eyebrow: 'Veterinaria en San Miguel',
+    text: 'En Cueva te acompañamos a cuidar de quien siempre está a tu lado. Cuéntanos qué necesita tu mascota y coordinemos su atención.',
     image:
       'https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?auto=compress&cs=tinysrgb&w=1900',
   },
   {
-    title: 'Cuidamos cada detalle de su salud',
-    cta: 'Consultar por WhatsApp',
+    title: 'Conocer más de su salud es otra forma de cuidarlo.',
+    cta: 'Consultar por ecografía',
+    href: createWhatsappUrl('Hola, quisiera consultar por una ecografía veterinaria y la disponibilidad de atención en Veterinaria Cueva.'),
+    external: true,
     service: 'Ecografía veterinaria',
-    eyebrow: 'Salud y bienestar',
-    text: 'Conoce nuestros servicios de ecografía veterinaria y consulta por la atención de tu mascota',
+    eyebrow: 'Ecografía veterinaria',
+    text: 'Si tu mascota necesita una ecografía, en Cueva te ayudamos a coordinar el siguiente paso. Escríbenos para conocer la disponibilidad y cómo preparar su visita.',
     image:
       'https://images.pexels.com/photos/6816861/pexels-photo-6816861.jpeg?auto=compress&cs=tinysrgb&w=1900',
   },
   {
-    title: 'Porque cada huellita merece lo mejor',
-    cta: 'Conoce nuestros servicios',
-    href: '/servicios',
+    title: 'Que se sienta tan bien como se ve.',
+    cta: 'Consultar por un baño',
+    href: createWhatsappUrl('Hola, quisiera consultar por el servicio de baño antipulgas en Veterinaria Cueva.'),
+    external: true,
     service: 'Baños y cuidado',
-    eyebrow: 'Cuidado para tu mascota',
-    text: 'Descubre nuestros servicios de baño y cuidado para mascotas',
+    eyebrow: 'Baño y cuidado',
+    text: 'Su cuidado también está en los pequeños detalles. Pregunta por el baño antipulgas y coordinemos una visita.',
     image:
       'https://images.pexels.com/photos/6235233/pexels-photo-6235233.jpeg?auto=compress&cs=tinysrgb&w=1900',
   },
 ]
 
 const servicesIntro =
-  'Conoce los servicios de Veterinaria Cueva en San Miguel, Lima. Consulta con nuestro equipo la disponibilidad de atención y cuidado para tu mascota.'
+  'Cada mascota tiene sus propias necesidades. Conoce nuestros servicios en San Miguel y conversemos sobre el siguiente paso para su cuidado.'
 
 const technologyContent = {
-  title: 'Cuidamos cada detalle de su salud',
-  text: 'Consulta por nuestro servicio de ecografía veterinaria, publicado en nuestras redes. Escríbenos para conocer la disponibilidad y coordinar la atención de tu mascota.',
+  title: 'Conocer más de su salud es otra forma de cuidarlo.',
+  text: 'Si necesitas coordinar una ecografía para tu mascota, escríbenos. Consulta con el equipo la disponibilidad del servicio y las indicaciones para su atención.',
 }
 
 const services = [
@@ -94,28 +126,28 @@ const services = [
     icon: Stethoscope,
     image:
       'https://images.pexels.com/photos/7469214/pexels-photo-7469214.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Consulta la disponibilidad de atención veterinaria para tu mascota en San Miguel.',
+    text: '¿Has notado algo distinto en tu mascota o tienes dudas sobre su cuidado? Cuéntanos qué ocurre y coordinemos una consulta.',
   },
   {
     title: 'Ecografía veterinaria',
     icon: HeartPulse,
     image:
       'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=900&q=80',
-    text: 'Conoce el servicio de ecografía veterinaria y consulta las indicaciones para la atención de tu mascota.',
+    text: 'Si te indicaron una ecografía, conversemos sobre cómo coordinarla y qué debes tener en cuenta antes de la visita.',
   },
   {
     title: 'Cirugía veterinaria',
     icon: Syringe,
     image:
       'https://images.pexels.com/photos/1350591/pexels-photo-1350591.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Consulta con el equipo las opciones de atención quirúrgica, sujetas a evaluación veterinaria.',
+    text: 'Cuando se habla de una cirugía, surgen preguntas. Consulta con el equipo la evaluación y las opciones de atención para tu mascota.',
   },
   {
     title: 'Baño antipulgas',
     icon: ShieldCheck,
     image:
       'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
-    text: 'Pregunta por el servicio de baño antipulgas y las opciones de cuidado para tu mascota.',
+    text: 'Un momento de cuidado para tu compañero de todos los días. Pregunta por el baño antipulgas y cómo coordinar su visita.',
   },
   {
     title: 'Vacunación',
@@ -123,7 +155,7 @@ const services = [
     icon: Activity,
     image:
       'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
-    text: 'Consulta la disponibilidad actual de vacunación y la orientación del equipo para tu mascota.',
+    text: '¿Buscas información sobre sus vacunas? Consulta con el equipo la disponibilidad de este servicio antes de coordinar tu visita.',
   },
   {
     title: 'Desparasitación',
@@ -131,7 +163,7 @@ const services = [
     icon: Microscope,
     image:
       'https://images.pexels.com/photos/5731866/pexels-photo-5731866.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Escríbenos para consultar la disponibilidad de desparasitación y el cuidado de tu mascota.',
+    text: 'Cuéntanos qué necesitas saber sobre desparasitación. Consulta la atención disponible y las indicaciones para tu mascota.',
   },
   {
     title: 'Baños y cortes',
@@ -139,7 +171,7 @@ const services = [
     icon: Scissors,
     image:
       'https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Consulta las opciones de baño y corte y su disponibilidad antes de coordinar tu visita.',
+    text: 'Conversemos sobre el cuidado de su pelaje. Pregunta por las opciones de baño y corte disponibles para tu mascota.',
   },
   {
     title: 'Pet shop',
@@ -147,7 +179,7 @@ const services = [
     icon: Activity,
     image:
       'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=900&q=80',
-    text: 'Consulta por los productos disponibles para el cuidado de tu mascota.',
+    text: 'El cuidado continúa en casa. Explora la tienda, prepara tu carrito y consulta tu pedido por WhatsApp.',
   },
   {
     title: 'Servicio pendiente 9',
@@ -206,22 +238,18 @@ const services = [
 const testimonials = []
 
 const faqs = [
-  { question: '¿Cómo puedo consultar una cita?',
-    answer: 'Escríbenos por WhatsApp o a través de nuestras redes oficiales para consultar la disponibilidad de atención.' },
-  { question: '¿Qué servicios veterinarios ofrecen?',
-    answer: 'Puedes consultar por atención veterinaria, ecografía, cirugía y baño antipulgas. Confirma la disponibilidad con el equipo antes de coordinar tu visita.' },
-  { question: '¿Dónde se encuentra Veterinaria Cueva?',
-    answer: `Estamos en ${business.location}. La dirección publicada es ${business.address}; confírmala con el equipo antes de visitarnos.` },
-]
-
-// Conservar el carrusel existente, sin publicar identidades ni fotos de otro equipo.
-// Agregar aquí los perfiles y fotografías cuando el cliente autorice sus datos.
-const doctors = []
-
-const stats = [
-  ['Amor', 'por los animales'],
-  ['Trato', 'cercano'],
-  ['Cerca', 'de tu mascota'],
+  {
+    question: '¿Cómo consulto una cita?',
+    answer: 'Escríbenos por WhatsApp con el motivo de tu consulta. El equipo te indicará la disponibilidad y los pasos para coordinar la atención de tu mascota.',
+  },
+  {
+    question: '¿Cómo hago un pedido en la tienda?',
+    answer: 'Elige tus productos, agrégalos al carrito y continúa por WhatsApp. Coordina con el equipo la disponibilidad, cómo recibir tu pedido y el pago antes de confirmar tu compra.',
+  },
+  {
+    question: '¿Dónde los encuentro?',
+    answer: `Estamos en ${business.address}. Atendemos de ${business.hours.charAt(0).toLowerCase() + business.hours.slice(1)} Escríbenos antes de venir para coordinar la atención.`,
+  },
 ]
 
 const kafkaCommerceTheme = {
@@ -258,6 +286,7 @@ function App() {
       </main>
       <Footer />
       <WhatsAppButton />
+      {/* {import.meta.env.DEV && <TypographyPreview />} */}
     </div>
   )
 }
@@ -267,6 +296,9 @@ function ScrollToTop() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    const metadata = pageMetadata[pathname.replace(/\/+$/, '') || '/'] || pageMetadata['/']
+    document.title = metadata.title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', metadata.description)
   }, [pathname])
 
   return null
@@ -306,7 +338,7 @@ function Header() {
         <NavLink to="/contacto">Contacto</NavLink>
         <a className="nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faWhatsapp} />
-          Agendar
+          Consultar una cita
         </a>
       </nav>
     </header>
@@ -374,12 +406,12 @@ function HeroCarousel() {
         <h1>{slide.title}</h1>
         <p>{slide.text}</p>
         <div className="hero-actions">
-          <a className="primary-button" href={slide.href || whatsappUrl} target={slide.href ? undefined : '_blank'} rel="noreferrer">
+          <a className="primary-button" href={slide.href || whatsappUrl} target={slide.external || !slide.href ? '_blank' : undefined} rel="noreferrer">
             <FontAwesomeIcon icon={faWhatsapp} />
             {slide.cta}
           </a>
           <NavLink className="secondary-button" to="/servicios">
-            Ver servicios
+            Conocer servicios
           </NavLink>
         </div>
       </div>
@@ -415,7 +447,7 @@ function FeaturedServices() {
     <section className="section-wrap">
       <SectionHeading
         eyebrow="Servicios"
-        title="Nuestros Servicios"
+        title="¿Qué necesita tu mascota hoy?"
         text={servicesIntro}
       />
       <div className="featured-grid">
@@ -458,19 +490,45 @@ function ServiceCard({ service }) {
 
 function TrustBand() {
   return (
-    <section className="trust-band">
-      <div>
-        <p className="eyebrow">Veterinaria Cueva</p>
-        <h2>Cuidamos a quienes más quieres</h2>
-        <p>En Veterinaria Cueva creemos que cada mascota merece atención, cariño y dedicación</p>
-      </div>
-      <div className="stats-grid">
-        {stats.map(([value, label]) => (
-          <span key={label}>
-            <strong>{value}</strong>
-            {label}
-          </span>
-        ))}
+    <section className="trust-band" aria-labelledby="trust-title">
+      <div className="trust-inner">
+        <div className="trust-copy">
+          <p className="eyebrow">Ese vínculo merece cuidado</p>
+          <h2 id="trust-title">Detrás de cada mascota<br />hay una <span>familia.</span></h2>
+          <p>Sabemos lo que significa para ti. En Cueva queremos acompañarte a cuidar de esos pequeños momentos que hacen grande su historia juntos.</p>
+          <div className="trust-principles">
+            {[
+              { icon: HeartPulse, title: 'Amor y respeto', text: 'Por quien alegra tus días.' },
+              { icon: MessageCircle, title: 'Trato cercano', text: 'Un espacio para escucharte.' },
+              { icon: ShieldCheck, title: 'Cuidado responsable', text: 'Su bienestar, presente.' },
+            ].map(({ icon: Icon, title, text }) => (
+              <div className="trust-principle" key={title}>
+                <Icon size={24} strokeWidth={1.7} aria-hidden="true" />
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            ))}
+          </div>
+          <NavLink className="trust-link" to="/nosotros">
+            Conoce el corazón de Cueva <ArrowRight size={19} aria-hidden="true" />
+          </NavLink>
+        </div>
+        <figure className="trust-visual">
+          <div className="trust-photo">
+            <img
+              src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1000&q=85"
+              alt="Dos perros corren y juegan juntos al aire libre"
+              loading="lazy"
+              width="1000"
+              height="1100"
+            />
+          </div>
+          <span className="trust-paw" aria-hidden="true"><PawPrint size={34} strokeWidth={1.7} /></span>
+          <figcaption>
+            <span className="trust-caption-line" aria-hidden="true" />
+            Por más paseos, más juegos<br /><strong>y más momentos juntos.</strong>
+          </figcaption>
+        </figure>
       </div>
     </section>
   )
@@ -520,8 +578,8 @@ function FaqSection() {
     <section className="section-wrap faq-section">
       <SectionHeading
         eyebrow="Preguntas frecuentes"
-        title="Conoce más sobre Veterinaria Cueva"
-        text="Información para consultar nuestros servicios y coordinar la atención de tu mascota."
+        title="El siguiente paso, más claro."
+        text="Para consultar una cita, preparar un pedido o planear tu visita."
       />
       <div className="faq-grid">
         {faqs.map((faq, index) => (
@@ -543,83 +601,17 @@ function FaqSection() {
   )
 }
 
-function DoctorsCarousel() {
-  const [active, setActive] = useState(0)
-  const activeDoctor = doctors[active]
-  if (!activeDoctor) return null
-
-  const goToDoctor = (direction) => {
-    setActive((value) => {
-      const next = value + direction
-      if (next < 0) return doctors.length - 1
-      return next % doctors.length
-    })
-  }
-
-  return (
-    <section className="doctors-section">
-      <div className="doctors-heading">
-        <SectionHeading
-          eyebrow="Nuestro equipo"
-          title="Nuestro equipo de Veterinaria Cueva"
-          text="Atención cercana y compromiso con el bienestar de tu mascota."
-        />
-      </div>
-
-      <div className="doctor-feature" key={activeDoctor.name}>
-        <div className="doctors-controls" aria-label="Cambiar doctor destacado">
-          <button type="button" aria-label="Doctor anterior" onClick={() => goToDoctor(-1)}>
-            <ArrowLeft size={20} />
-          </button>
-          <button type="button" aria-label="Doctor siguiente" onClick={() => goToDoctor(1)}>
-            <ArrowRight size={20} />
-          </button>
-        </div>
-        <div className="doctor-photo">
-          <img src={activeDoctor.image} alt={activeDoctor.name} />
-        </div>
-        <div className="doctor-profile">
-          <p className="eyebrow">{activeDoctor.role}</p>
-          <h3>{activeDoctor.name}</h3>
-          <strong>{activeDoctor.focus}</strong>
-          <p>{activeDoctor.text}</p>
-          <a className="secondary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
-            Consultar disponibilidad
-          </a>
-        </div>
-      </div>
-
-      <div className="doctor-strip" aria-label="Lista de doctores">
-        {doctors.map((doctor, index) => (
-          <button
-            className={index === active ? 'is-active' : ''}
-            type="button"
-            key={doctor.name}
-            onClick={() => setActive(index)}
-          >
-            <img src={doctor.image} alt="" />
-            <span>
-              <strong>{doctor.name}</strong>
-              {doctor.focus}
-            </span>
-          </button>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 function CtaSection() {
   return (
     <section className="cta-section">
       <div>
-        <p className="eyebrow">Agenda tu atención</p>
-        <h2>¿Tu mascota necesita atención?</h2>
-        <p>Estamos aquí para ayudarte a cuidar de tu mejor amigo</p>
+        <p className="eyebrow">Su cuidado empieza con una conversación</p>
+        <h2>Cuéntanos qué necesita tu mascota.</h2>
+        <p>Una duda, una cita o una visita que quieres coordinar. Estamos para orientarte.</p>
       </div>
       <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
         <FontAwesomeIcon icon={faWhatsapp} />
-        Contáctanos por WhatsApp
+        Hablar por WhatsApp
       </a>
     </section>
   )
@@ -629,7 +621,7 @@ function TechnologySection() {
   return (
     <section className="technology-section">
       <div>
-        <p className="eyebrow">Tecnología veterinaria</p>
+        <p className="eyebrow">Ecografía veterinaria</p>
         <h2>{technologyContent.title}</h2>
       </div>
       <p>{technologyContent.text}</p>
@@ -642,7 +634,7 @@ function ServicesPage() {
     <>
       <PageHero
         eyebrow="Servicios"
-        title="Nuestros Servicios"
+        title="Un cuidado para cada etapa."
         text={servicesIntro}
         image="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=1800&q=82"
       />
@@ -659,8 +651,8 @@ function ShopPage() {
     <>
       <PageHero
         eyebrow="Tienda"
-        title="Tienda Veterinaria Cueva"
-        text="Explora nuestros productos para el cuidado de tu mascota y prepara tu pedido por WhatsApp."
+        title="Cuídalo también en casa."
+        text="Elige productos para tu mascota, arma tu carrito y continúa por WhatsApp. Confirma con el equipo la disponibilidad y los detalles de tu compra."
         image="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1800&q=82"
       />
       <section className="section-wrap kafka-commerce-section">
@@ -669,8 +661,8 @@ function ShopPage() {
             <span>
               <PackageOpen size={28} />
             </span>
-            <h3>Próximamente en Veterinaria Cueva</h3>
-            <p>Próximamente encontrarás nuestros productos para el cuidado de tu mascota</p>
+            <h3>Conversemos sobre lo que necesitas.</h3>
+            <p>El catálogo no está disponible en este momento. Escríbenos por WhatsApp para consultar por nuestros productos.</p>
           </div>
         ) : (
           <CommerceStore
@@ -678,7 +670,7 @@ function ShopPage() {
               type: 'whatsapp',
               phone: commerceWhatsappPhone,
             }}
-            description="Explora nuestros productos y prepara tu pedido por WhatsApp."
+            description="Encuentra lo que necesita, agrégalo al carrito y consulta tu pedido por WhatsApp."
             features={{
               search: true,
               filters: true,
@@ -702,44 +694,113 @@ function AboutPage() {
     <>
       <PageHero
         eyebrow="Nosotros"
-        title="Conoce Veterinaria Cueva"
-        text="En Veterinaria Cueva nos dedicamos al cuidado y bienestar de las mascotas, ofreciendo un espacio de atención cercana para nuestros amigos de cuatro patas"
-        image="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=1800&q=82"
+        title="El cariño también se demuestra cuidando."
+        text="Hay mascotas que nos reciben en la puerta, nos acompañan en silencio y nos cambian el día. En Veterinaria Cueva creemos que ese vínculo merece atención, respeto y cariño."
+        image="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=1800&q=82"
       />
-      <section className="about-section">
-        <div className="staff-photo-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80"
-            alt="Mascota en atención veterinaria"
-          />
+      <section className="about-section about-story" aria-labelledby="about-story-title">
+        <div className="about-story-visual">
+          <div className="staff-photo-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80"
+              alt="Un cachorro disfruta de un paseo al aire libre"
+              loading="lazy"
+              width="900"
+              height="1050"
+            />
+          </div>
+          <div className="about-photo-note">
+            <PawPrint size={26} aria-hidden="true" />
+            <p>Para ti es parte de la familia.<br /><strong>Para nosotros, su bienestar importa.</strong></p>
+          </div>
         </div>
         <div className="about-copy">
           <p className="eyebrow">Nuestro compromiso</p>
-          <h2>Más que una veterinaria, un espacio de confianza.</h2>
+          <h2 id="about-story-title">Detrás de cada huellita, hay una historia contigo.</h2>
           <p>
-            En Veterinaria Cueva creemos que cada mascota merece atención,
-            cariño y dedicación. Nos inspiran el amor por los animales y el
-            compromiso con su bienestar.
+            Tú conoces sus costumbres, sus juegos favoritos y esa mirada que lo dice
+            todo. Por eso, cuando algo te preocupa, tu voz también forma parte de su cuidado.
           </p>
-          <div className="value-list">
-            <span>
-              <ShieldCheck size={18} />
-              Cuidado responsable
-            </span>
-            <span>
-              <Sparkles size={18} />
-              Atención cercana
-            </span>
-            <span>
-              <CalendarCheck size={18} />
-              Compromiso con su bienestar
-            </span>
+          <p>
+            En Veterinaria Cueva queremos que encuentres un espacio para hablar de
+            tu mascota, resolver tus dudas y dar el siguiente paso en su bienestar.
+            Con respeto por ella y cercanía contigo.
+          </p>
+          <NavLink className="about-text-link" to="/servicios">
+            Conoce cómo podemos acompañarte <ArrowRight size={19} aria-hidden="true" />
+          </NavLink>
+          <div className="about-location-tag">
+            <MapPin size={18} aria-hidden="true" />
+            Desde San Miguel, cerca de tu familia.
           </div>
         </div>
       </section>
-      <DoctorsCarousel />
+
+      <section className="about-values" aria-labelledby="about-values-title">
+        <div className="about-inner">
+          <div className="about-values-heading">
+            <div>
+              <p className="eyebrow">Lo que nos mueve</p>
+              <h2 id="about-values-title">El cuidado está en<br />los pequeños detalles.</h2>
+            </div>
+            <p>Más que palabras, son los principios que queremos tener presentes en cada encuentro contigo y tu mascota.</p>
+          </div>
+          <div className="about-values-grid">
+            {[
+              { icon: MessageCircle, title: 'Escuchar primero', text: 'Lo que notas en casa importa. Queremos conocer tus inquietudes y lo que hace única a tu mascota.' },
+              { icon: PawPrint, title: 'Respetar su mundo', text: 'Cada mascota tiene su carácter y su manera de relacionarse. Creemos en un trato atento a esas diferencias.' },
+              { icon: HeartPulse, title: 'Hablar con cercanía', text: 'Preguntar también es cuidar. Buscamos que te sientas con confianza para conversar sobre su bienestar.' },
+              { icon: ShieldCheck, title: 'Cuidar con responsabilidad', text: 'La atención y los cuidados del día a día se complementan. Queremos acompañarte a tomar decisiones para tu mascota.' },
+            ].map(({ icon: Icon, title, text }) => (
+              <article className="about-value-card" key={title}>
+                <span className="about-value-icon"><Icon size={25} aria-hidden="true" /></span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <MedicalTeam members={medicalTeam} />
+
+      <section className="about-first-visit about-inner" aria-labelledby="about-visit-title">
+        <div className="about-visit-copy">
+          <p className="eyebrow">¿Aún no nos conocemos?</p>
+          <h2 id="about-visit-title">Empecemos por<br />un «hola».</h2>
+          <p>No necesitas tener todas las respuestas antes de escribirnos. Cuéntanos qué necesita tu mascota y consulta cómo coordinar su atención.</p>
+          <ol className="about-visit-steps">
+            <li>
+              <span aria-hidden="true">01</span>
+              <div><h3>Cuéntanos sobre tu mascota</h3><p>Escríbenos por WhatsApp con tu consulta o el servicio que te interesa.</p></div>
+            </li>
+            <li>
+              <span aria-hidden="true">02</span>
+              <div><h3>Coordina antes de venir</h3><p>Consulta la disponibilidad y qué información conviene traer para su atención.</p></div>
+            </li>
+            <li>
+              <span aria-hidden="true">03</span>
+              <div><h3>Ven con tus preguntas</h3><p>Sus hábitos, los cambios que has notado y tus dudas son un buen punto de partida.</p></div>
+            </li>
+          </ol>
+        </div>
+        <aside className="about-visit-card" aria-label="Visita Veterinaria Cueva">
+          <span className="about-visit-symbol"><PawPrint size={38} aria-hidden="true" /></span>
+          <p className="eyebrow">Tu próxima visita</p>
+          <h3>Te esperamos<br />en San Miguel.</h3>
+          <dl>
+            <div><dt><MapPin size={18} aria-hidden="true" />Dónde estamos</dt><dd>{business.address}</dd></div>
+            <div><dt><Clock size={18} aria-hidden="true" />Nuestro horario</dt><dd>{business.hours}</dd></div>
+          </dl>
+          <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
+            <FontAwesomeIcon icon={faWhatsapp} /> Conversemos por WhatsApp
+          </a>
+          <a className="about-visit-map" href={business.mapsUrl} target="_blank" rel="noreferrer">
+            Ver cómo llegar <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </aside>
+      </section>
       <TestimonialsSection />
-      <CtaSection />
     </>
   )
 }
@@ -749,36 +810,49 @@ function ContactPage() {
     <>
       <PageHero
         eyebrow="Contacto"
-        title="Contáctanos"
-        text="Estamos en San Miguel, Lima. Escríbenos para consultar por nuestros servicios y coordinar la atención de tu mascota"
+        title="Hablemos de tu mascota."
+        text="Cuéntanos qué necesita y coordinemos el siguiente paso para su cuidado. Te esperamos en San Miguel, Lima."
         image="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1800&q=82"
       />
-      <section className="contact-section">
+      <section className="contact-section contact-visit" aria-label="Visita Veterinaria Cueva">
         <div className="contact-info">
           <SectionHeading
-            eyebrow="Datos de atención"
-            title={business.address}
-            text="Dirección, teléfono y horario publicados en directorios, pendientes de confirmación. Consulta con el equipo antes de visitarnos."
+            eyebrow="Planea tu visita"
+            title="Nos vemos en San Miguel."
+            text="Una consulta, una duda o su próxima visita. Escríbenos y coordinemos el cuidado de tu mascota."
           />
-          <div className="contact-list">
-            <a href={whatsappUrl} target="_blank" rel="noreferrer">
-              <Phone size={18} />
-              {phoneDisplay}{!business.confirmed.phone ? ' (por confirmar)' : ''}
+          <div className="contact-actions">
+            <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
+              <FontAwesomeIcon icon={faWhatsapp} />
+              Escribir por WhatsApp
             </a>
-            <span>
-              <Clock size={18} />
-              Horario de atención: {businessHours}{!business.confirmed.hours ? ' (por confirmar)' : ''}
-            </span>
-            <span>
+            <a className="secondary-button contact-directions" href={business.mapsUrl} target="_blank" rel="noreferrer">
               <MapPin size={18} />
-              {business.location}
-            </span>
+              Cómo llegar
+            </a>
           </div>
-          <SocialLinks />
+          <a className="contact-phone" href={`tel:+${business.phone}`}>
+            <Phone size={15} />
+            {phoneDisplay}
+          </a>
+          <dl className="contact-details">
+            <div>
+              <dt><MapPin size={17} />Dirección</dt>
+              <dd>{business.address}</dd>
+            </div>
+            <div>
+              <dt><Clock size={17} />Horario de atención</dt>
+              <dd>{businessHours}</dd>
+            </div>
+          </dl>
+          <div className="contact-socials">
+            <span>También estamos en</span>
+            <SocialLinks />
+          </div>
         </div>
         <div className="map-card" aria-label="Mapa de ubicación">
           <iframe
-            title="Ubicación referencial de Veterinaria Cueva, por confirmar"
+            title="Ubicación de Veterinaria Cueva en San Miguel, Lima"
             src={business.mapsEmbed}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -829,7 +903,7 @@ function Footer() {
     <footer className="site-footer">
       <div className="footer-brand">
         <img src={logo} alt="Veterinaria Cueva" />
-        <p>© {year} Veterinaria Cueva. Cuidando mascotas en San Miguel, Lima.</p>
+        <p>© {year} Veterinaria Cueva. Cerca de ti y de tu mascota, en San Miguel.</p>
       </div>
       <div className="footer-hours">
         <strong>Horario de atención{!business.confirmed.hours ? ' (por confirmar)' : ''}</strong>
@@ -842,7 +916,7 @@ function Footer() {
         <nav>
           <NavLink to="/servicios">Servicios</NavLink>
           <NavLink to="/tienda">Tienda</NavLink>
-            <NavLink to="/contacto">Contacto</NavLink>
+          <NavLink to="/contacto">Contacto</NavLink>
         </nav>
         <SocialLinks />
       </div>
@@ -869,7 +943,7 @@ function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noreferrer"
-      aria-label="Escribir a Veterinaria Cueva por WhatsApp (número provisional por confirmar)"
+      aria-label="Hablar con Veterinaria Cueva por WhatsApp"
     >
       <FontAwesomeIcon icon={faWhatsapp} />
     </a>

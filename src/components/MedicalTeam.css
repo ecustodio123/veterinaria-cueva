@@ -1,0 +1,149 @@
+.medical-team {
+  width: min(1180px, calc(100% - 36px));
+  margin-inline: auto;
+  padding-block: 88px 20px;
+}
+
+.medical-team__heading {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 36px;
+}
+
+.medical-team__heading h2 {
+  max-width: 20ch;
+  color: var(--ink);
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-weight: 900;
+  text-wrap: balance;
+}
+
+.medical-team__intro > p {
+  max-width: 43ch;
+}
+
+.medical-team__notice {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 7px 11px;
+  border-radius: 6px;
+  background: var(--orange-soft);
+  color: var(--ink);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.medical-team__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.medical-team__card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.medical-team__photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1.05;
+  background: var(--orange-soft);
+}
+
+.medical-team__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.medical-team__photo-label {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  border-radius: 30px;
+  padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ink);
+  font-size: 0.73rem;
+  font-weight: 650;
+}
+
+.medical-team__profile {
+  position: relative;
+  padding: 30px 24px 26px;
+  border-top: 3px solid var(--brand-caramel);
+}
+
+.medical-team__icon {
+  position: absolute;
+  top: -26px;
+  right: 22px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 4px solid var(--surface);
+  border-radius: 50%;
+  background: var(--brand-green);
+  color: var(--brand-black);
+}
+
+.medical-team__role {
+  color: var(--accent-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.medical-team__profile h3 {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.25;
+}
+
+.medical-team__description {
+  margin-top: 12px;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 900px) {
+  .medical-team__heading {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .medical-team__intro > p {
+    max-width: 60ch;
+  }
+
+  .medical-team__grid {
+    gap: 16px;
+  }
+
+  .medical-team__profile {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 680px) {
+  .medical-team {
+    width: calc(100% - 32px);
+    padding-top: 60px;
+  }
+
+  .medical-team__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .medical-team__card {
+    width: 100%;
+    max-width: 430px;
+    margin-inline: auto;
+  }
+}

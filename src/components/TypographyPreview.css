@@ -1,0 +1,120 @@
+.font-preview {
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  z-index: 120;
+  width: 320px;
+  max-width: calc(100vw - 36px);
+  color: #000;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px #0002;
+  overflow: hidden;
+}
+
+.font-preview__toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 15px;
+  border: 0;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+}
+
+.font-preview__toggle span {
+  color: #5c605a;
+  font-size: 12px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.font-preview__toggle[aria-expanded="true"] > svg:last-child {
+  transform: rotate(180deg);
+}
+
+.font-preview__panel {
+  max-height: calc(75dvh - 46px);
+  overflow-y: auto;
+  padding: 0 12px 12px;
+}
+
+.font-preview__intro {
+  color: #4d514a;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 3px 10px;
+}
+
+.font-preview__options {
+  display: grid;
+  gap: 8px;
+}
+
+.font-preview__option {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid #e5e7e0;
+  border-radius: 9px;
+  background: #fff;
+  color: #000;
+  text-align: left;
+  font: inherit;
+}
+
+.font-preview__option[aria-pressed="true"] {
+  border-color: #137b06;
+  background: #effce9;
+  box-shadow: inset 3px 0 #21CF0A;
+}
+
+.font-preview__option span {
+  font-size: 12px;
+}
+
+.font-preview__option small {
+  color: #5c605a;
+  font-size: 11px;
+}
+
+.font-preview__hint {
+  color: #5c605a;
+  font-size: 10px;
+  line-height: 1.5;
+  margin: 10px 3px 0;
+}
+
+.font-preview :focus-visible {
+  outline: 2px solid #137b06;
+  outline-offset: -3px;
+}
+
+@media (max-width: 580px) {
+  .font-preview {
+    left: 12px;
+    bottom: 12px;
+    width: 270px;
+    max-width: calc(100vw - 112px);
+  }
+
+  .font-preview__toggle {
+    padding-inline: 10px;
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .font-preview__toggle span {
+    font-size: 10px;
+  }
+}

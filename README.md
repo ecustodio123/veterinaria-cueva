@@ -21,10 +21,10 @@ Logo oficial: `src/assets/img/brand/logo.png`. Favicon oficial: `src/assets/favi
 
 Los datos editables están centralizados en `src/config/business.js`:
 
-- Teléfono/WhatsApp provisional: +51 992 709 298.
-- Dirección referencial: Federico Gallese Taricchi 895, San Miguel, Lima.
-- Horario referencial: lunes a sábado, de 9:00 a. m. a 6:00 p. m.
-- Confirmar estos tres datos directamente con el cliente antes de publicar; sus banderas `confirmed` permanecen en `false`.
+- Teléfono/WhatsApp: +51 992 709 298.
+- Dirección: Federico Gallese Taricchi 895, San Miguel, Lima.
+- Horario: lunes a sábado, de 9:00 a. m. a 6:00 p. m.
+- Dirección, teléfono y horario confirmados directamente por el cliente el 14 de octubre de 2026; sus banderas `confirmed` están en `true`.
 - Instagram y Facebook proporcionados por el cliente. Correo y TikTok pendientes, sin enlaces inventados.
 
 Se conserva el carrusel de tres banners y las tres preguntas frecuentes originales, con contenido actualizado. No se publican estadísticas inventadas. El componente de testimonios se conserva sin contenido hasta recibir reseñas autorizadas. Solo queda una presentación del equipo: el carrusel existente, preparado pero oculto mientras falten perfiles y fotografías autorizadas.
@@ -46,7 +46,7 @@ Se acepta clave pública publishable o JWT anon, nunca `service_role`, `sb_secre
 
 Activar la bandera solamente después de verificar externamente que el ID pertenece a Cueva y que los permisos RLS son correctos. La bandera no sustituye las políticas de seguridad del servidor. No se aplican cambios de base de datos desde este frontend.
 
-Sin configuración propia verificada, `/tienda` muestra: “Próximamente encontrarás nuestros productos para el cuidado de tu mascota”. No se crea el cliente Supabase ni se consulta inventario.
+Sin configuración propia verificada, `/tienda` muestra un estado de catálogo no disponible y remite a WhatsApp. No se crea el cliente Supabase ni se consulta inventario.
 
 La tienda pública `/tienda` utiliza exclusivamente `CommerceStore` de Kafka Commerce 0.2.3. Los enlaces “Tienda” del header y footer apuntan a esa ruta. La antigua `/tiendas-prueba` redirige a `/tienda` para mantener los enlaces anteriores. No se muestra navegación de prueba.
 
@@ -56,4 +56,8 @@ Kafka Commerce gestiona catálogo, categorías, búsqueda, favoritos, carrito y 
 
 ## Publicación pendiente
 
-No se ha realizado commit, push ni deploy. Confirmar datos de negocio, servicios e inventario, reemplazar placeholders y autorizar las reseñas y perfiles antes de publicar. No se inventó un dominio.
+No se ha realizado commit, push ni deploy. Confirmar los servicios históricos y revisar el inventario, reemplazar placeholders y autorizar las reseñas y perfiles antes de publicar. No se inventó un dominio.
+
+## Comparar tipografías
+
+En desarrollo, el botón **Tipografías** de la esquina inferior izquierda permite alternar entre la tipografía actual y dos propuestas gratuitas. La elección se guarda solo en ese navegador. Para fijar la versión publicada, editar `DEFAULT_TYPOGRAPHY` en `src/config/typography.js`. [Instrucciones, propuestas y licencias](docs/TIPOGRAFIAS.md).
