@@ -1,10 +1,14 @@
 :root {
-  --red: #f00000;
-  --red-dark: #c90000;
-  --orange: #f09010;
-  --orange-soft: #fff2df;
-  --blue: #0a72bb;
-  --ink: #171717;
+  --brand-green: #21CF0A;
+  --brand-black: #000000;
+  --brand-caramel: #C79D76;
+  --accent-text: #137b06;
+  --red: var(--brand-green);
+  --red-dark: #1ab009;
+  --orange: var(--brand-caramel);
+  --orange-soft: #f7eee6;
+  --blue: var(--brand-black);
+  --ink: var(--brand-black);
   --muted: #6c6c6c;
   --line: #ece7df;
   --surface: #ffffff;
@@ -35,7 +39,7 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    linear-gradient(180deg, rgba(255, 242, 223, 0.45), transparent 28rem),
+    linear-gradient(180deg, rgba(247, 238, 230, 0.45), transparent 28rem),
     var(--surface);
 }
 

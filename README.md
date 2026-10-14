@@ -1,132 +1,59 @@
 # Veterinaria Cueva
 
-Proyecto independiente iniciado a partir de Enros Vet. La interfaz, imágenes y lógica originales se mantienen como base para la futura adaptación a Veterinaria Cueva.
+Frontend React/Vite de Veterinaria Cueva en San Miguel, Lima. Se conserva el diseño original: componentes, rutas, tarjetas, carruseles, tipografías, tamaños, responsive y transiciones. La adaptación cambia identidad, contenido y configuración de datos.
 
-Este proyecto tiene su propio repositorio Git; los cambios aquí no modifican Enros. No se copiaron las credenciales ni el archivo `.env` de Enros. Configura tus propios servicios y tienda antes de conectar el catálogo.
+## Desarrollo
 
-## Configuración heredada de la base
-
-Frontend público de Enro's Vet construido con React y Vite. La web consume productos de Kafka Core desde Supabase en modo solo lectura.
-
-## Variables de entorno
-
-Crear un archivo `.env` local basado en `.env.example`:
-
-```bash
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
-VITE_SUPABASE_PUBLISHABLE_KEY=
-VITE_STORE_ID=
-VITE_WHATSAPP_PHONE=
-```
-
-No usar `service_role`, contraseña de base de datos ni secretos privados en este frontend. La app solo debe utilizar la anon/publishable key pública de Supabase.
-
-## Ejecutar el proyecto
-
-```bash
+```sh
 npm install
 npm run dev
-```
-
-Para validar producción:
-
-```bash
 npm run lint
 npm run build
 ```
 
-## Tienda actual
+La dependencia privada `@ecustodio123/kafka-commerce@0.2.3` se instala desde GitHub Packages mediante `GITHUB_PACKAGES_TOKEN` en el entorno. Nunca exponer ese token como variable `VITE_*`.
 
-El catálogo usa temporalmente:
+## Identidad y contacto
 
-```js
-export const CURRENT_STORE_ID = 1
+Colores en `src/index.css`: verde `#21CF0A`, negro `#000000` y caramelo `#C79D76`. Se conservan los alias CSS anteriores para no alterar el sistema de estilos ni sus reglas estructurales.
+
+Logo oficial: `src/assets/img/brand/logo.png`. Favicon oficial: `src/assets/favicon/favicon.png`. No se modifican los archivos de imagen; las imágenes anteriores permanecen como placeholders para reemplazo posterior. Los logos anteriores no se referencian en la web.
+
+Los datos editables están centralizados en `src/config/business.js`:
+
+- Teléfono/WhatsApp provisional: +51 992 709 298.
+- Dirección referencial: Federico Gallese Taricchi 895, San Miguel, Lima.
+- Horario referencial: lunes a sábado, de 9:00 a. m. a 6:00 p. m.
+- Confirmar estos tres datos directamente con el cliente antes de publicar; sus banderas `confirmed` permanecen en `false`.
+- Instagram y Facebook proporcionados por el cliente. Correo y TikTok pendientes, sin enlaces inventados.
+
+Se conserva el carrusel de tres banners y las tres preguntas frecuentes originales, con contenido actualizado. No se publican estadísticas inventadas. El componente de testimonios se conserva sin contenido hasta recibir reseñas autorizadas. Solo queda una presentación del equipo: el carrusel existente, preparado pero oculto mientras falten perfiles y fotografías autorizadas.
+
+Los servicios históricos tienen `pendingConfirmation: true` y textos de consulta de disponibilidad. Los servicios sin respaldo permanecen en la configuración con `published: false`; no se muestran al público. Las imágenes y estilos de las tarjetas se mantienen.
+
+## Tienda y Supabase
+
+Completar `.env.example` en un archivo local ignorado por Git con variables específicas de Cueva:
+
+```sh
+VITE_CUEVA_SUPABASE_URL=
+VITE_CUEVA_SUPABASE_PUBLISHABLE_KEY=
+VITE_CUEVA_STORE_ID=
+VITE_CUEVA_STORE_VERIFIED=false
 ```
 
-La configuración vive en `src/config/store.js`. Más adelante puede reemplazarse por resolución por slug, dominio o configuración remota.
+Se acepta clave pública publishable o JWT anon, nunca `service_role`, `sb_secret_*` ni contraseñas. Las variables genéricas de otros proyectos se ignoran y no existe un ID predeterminado. El ID debe pertenecer a Cueva; puede ser numérico o UUID según el esquema de Supabase.
 
-## Lectura de productos
+Activar la bandera solamente después de verificar externamente que el ID pertenece a Cueva y que los permisos RLS son correctos. La bandera no sustituye las políticas de seguridad del servidor. No se aplican cambios de base de datos desde este frontend.
 
-La app reutiliza un cliente centralizado en `src/lib/supabase.js` y consulta productos desde `src/services/products.js`.
+Sin configuración propia verificada, `/tienda` muestra: “Próximamente encontrarás nuestros productos para el cuidado de tu mascota”. No se crea el cliente Supabase ni se consulta inventario.
 
-La función `getPublicProducts()` lee la tabla `products` filtrando:
+La tienda pública `/tienda` utiliza exclusivamente `CommerceStore` de Kafka Commerce 0.2.3. Los enlaces “Tienda” del header y footer apuntan a esa ruta. La antigua `/tiendas-prueba` redirige a `/tienda` para mantener los enlaces anteriores. No se muestra navegación de prueba.
 
-- `store_id = 1`
-- `active = true`
+Se retiraron el catálogo anterior de Inicio, sus consultas directas de productos, el carrito simulado, su botón del header y sus estilos. Inicio conserva el resto de sus secciones.
 
-Los productos se ordenan por `created_at desc`. Los productos con `available = false` se muestran como “Agotado”, sin ocultarse.
+Kafka Commerce gestiona catálogo, categorías, búsqueda, favoritos, carrito y checkout por WhatsApp. Se mantienen su tema, su interfaz y la configuración independiente de Cueva, sin modificar el paquete compartido. Carrito y favoritos se separan por ID de tienda. No se añadieron descuentos, productos ni precios ficticios.
 
-## Imágenes
+## Publicación pendiente
 
-Las imágenes se leen desde Supabase Storage en el bucket público:
-
-```text
-product-images
-```
-
-El helper `src/services/productImages.js` resuelve cada `image_path` con:
-
-```js
-supabase.storage.from('product-images').getPublicUrl(imagePath)
-```
-
-El frontend solo lee imágenes. No sube, edita ni elimina archivos.
-
-## Kafka Commerce
-
-La ruta `/tiendas-prueba` renderiza `@ecustodio123/kafka-commerce@0.1.0`, instalado desde GitHub Packages.
-
-Esa vista usa:
-
-- `CommerceStore`
-- `@ecustodio123/kafka-commerce/styles.css`
-- el cliente compartido de `src/lib/supabase.js`
-- `VITE_STORE_ID` como tienda de prueba
-- `VITE_WHATSAPP_PHONE` para checkout por WhatsApp
-
-Kafka Commerce filtra productos por `store_id`, muestra solo `active = true`, habilita búsqueda/filtros/carrito y prepara checkout por WhatsApp desde el frontend público.
-
-Para instalar dependencias privadas desde GitHub Packages, el entorno debe tener:
-
-```bash
-GITHUB_PACKAGES_TOKEN=token_con_read_packages
-```
-
-El token no debe guardarse en `.env` de Vite ni exponerse como variable `VITE_*`.
-
-El theme de Kafka Commerce se configuró con la identidad visual actual del proyecto:
-
-- rojo principal `#f00000`
-- naranja de apoyo `#f09010`
-- fondo blanco y superficie suave `#fbfaf8`
-- texto `#171717`
-- borde cálido `#ece7df`
-- radio `8px`
-- tipografía heredada del sitio
-
-## Seguridad y RLS
-
-Este proyecto actúa como usuario `anon`. Supabase debe permitir lectura pública de productos visibles, por ejemplo productos con `active = true`, y lectura pública del bucket `product-images`.
-
-Política orientativa de solo lectura para productos activos:
-
-```sql
-create policy "Public active products are readable"
-on public.products
-for select
-to anon
-using (active = true);
-```
-
-Este repositorio no implementa:
-
-- login
-- roles
-- CRUD
-- dashboard
-- subida de imágenes
-- pagos
-- carrito
-- órdenes
-- backend propio
+No se ha realizado commit, push ni deploy. Confirmar datos de negocio, servicios e inventario, reemplazar placeholders y autorizar las reseñas y perfiles antes de publicar. No se inventó un dominio.
