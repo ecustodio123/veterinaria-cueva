@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useCommerceHeaderNavigation } from './hooks/useCommerceHeaderNavigation'
 import { CommerceStore } from '@ecustodio123/kafka-commerce'
 import '@ecustodio123/kafka-commerce/styles.css'
 import {
@@ -267,17 +268,28 @@ const kafkaCommerceTheme = {
 function App() {
   const { pathname } = useLocation()
   const isStorePage = pathname.replace(/\/+$/, '') === '/tienda'
+  const embeddedCommerce = isStorePage && import.meta.env.DEV && import.meta.env.MODE === 'commerce-local'
+  const commerceNavigation = useCommerceHeaderNavigation(embeddedCommerce)
 
   return (
-    <div className={isStorePage ? 'app-shell app-shell--store' : 'app-shell'}>
+    <div
+      className={isStorePage ? `app-shell app-shell--store${embeddedCommerce ? ' app-shell--commerce-local' : ''}` : 'app-shell'}
+      style={{ '--kafka-commerce-host-header-offset': `${commerceNavigation.visibleHeight}px` }}
+    >
       <ScrollToTop />
-      <Header />
+      <div className={embeddedCommerce ? 'site-header-slot' : undefined}>
+        <Header
+          headerRef={commerceNavigation.headerRef}
+          hidden={commerceNavigation.headerHidden}
+          onMenuOpenChange={commerceNavigation.setMenuOpen}
+        />
+      </div>
       <main>
         <PageTransition>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/servicios" element={<ServicesPage />} />
-            <Route path="/tienda" element={<ShopPage />} />
+            <Route path="/tienda" element={<ShopPage catalogRef={commerceNavigation.catalogRef} embeddedCommerce={embeddedCommerce} />} />
             <Route path="/tiendas-prueba" element={<Navigate to="/tienda" replace />} />
             <Route path="/nosotros" element={<AboutPage />} />
             <Route path="/contacto" element={<ContactPage />} />
@@ -304,16 +316,25 @@ function ScrollToTop() {
   return null
 }
 
-function Header() {
+function Header({ headerRef, hidden, onMenuOpenChange }) {
   const [open, setOpen] = useState(false)
   const location = useLocation()
+
+  useEffect(() => {
+    onMenuOpenChange(open)
+  }, [onMenuOpenChange, open])
 
   useEffect(() => {
     setOpen(false)
   }, [location.pathname])
 
   return (
-    <header className="site-header">
+    <header
+      className={`site-header${hidden ? ' site-header--hidden' : ''}${open ? ' site-header--menu-open' : ''}`}
+      ref={headerRef}
+      inert={hidden}
+      aria-hidden={hidden || undefined}
+    >
       <NavLink className="brand-link" to="/" aria-label="Ir al inicio">
         <img src={logo} alt="Veterinaria Cueva" />
       </NavLink>
@@ -644,7 +665,7 @@ function ServicesPage() {
   )
 }
 
-function ShopPage() {
+function ShopPage({ catalogRef, embeddedCommerce }) {
   const storeId = CURRENT_STORE_ID
 
   return (
@@ -655,7 +676,7 @@ function ShopPage() {
         text="Elige productos para tu mascota, arma tu carrito y continúa por WhatsApp. Confirma con el equipo la disponibilidad y los detalles de tu compra."
         image="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1800&q=82"
       />
-      <section className="section-wrap kafka-commerce-section">
+      <section className="section-wrap kafka-commerce-section" ref={catalogRef}>
         {!isSupabaseConfigured || !storeId ? (
           <div className="catalog-state" role="alert">
             <span>
@@ -666,6 +687,7 @@ function ShopPage() {
           </div>
         ) : (
           <CommerceStore
+            navigationMode={embeddedCommerce ? 'embedded' : 'standalone'}
             checkout={{
               type: 'whatsapp',
               phone: commerceWhatsappPhone,

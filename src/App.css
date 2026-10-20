@@ -20,8 +20,40 @@
   backdrop-filter: blur(18px);
 }
 
+.app-shell--commerce-local {
+  --kafka-commerce-header-transition-duration: 180ms;
+}
+
+.site-header-slot {
+  height: var(--header-height);
+}
+
 .app-shell--store .site-header {
   position: relative;
+}
+
+.app-shell--commerce-local .site-header {
+  position: fixed;
+  z-index: 56;
+  transition: transform var(--kafka-commerce-header-transition-duration) ease;
+}
+
+.site-header--hidden {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.app-shell--commerce-local .site-header--menu-open {
+  z-index: 68;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell--commerce-local {
+    --kafka-commerce-header-transition-duration: 0ms;
+  }
+  .app-shell--commerce-local .site-header {
+    transition: none;
+  }
 }
 
 .app-shell--store .page-hero {
@@ -510,6 +542,10 @@
   top: 18px;
   right: 18px;
   bottom: auto;
+}
+
+.app-shell--commerce-local .kafka-commerce-section .kc-cart-launcher {
+  top: calc(var(--kafka-commerce-host-header-offset, 0px) + 12px);
 }
 
 .kafka-commerce-section .kc-commerce-store {
@@ -1555,17 +1591,13 @@
     height: 320px;
   }
 
-  .app-shell--store .site-header {
-    padding-right: 88px;
-    gap: 16px;
-  }
-
   .app-shell--store .main-nav {
     position: absolute;
   }
 
   .kafka-commerce-section .kc-cart-launcher {
-    top: 12px;
+    /* Keep the floating cart clear of the shared mobile header controls. */
+    top: calc(var(--kafka-commerce-host-header-offset, 0px) + 12px);
   }
 
   :root {
@@ -1573,11 +1605,14 @@
   }
 
   .site-header {
-    padding: 10px 16px;
+    /* Share horizontal spacing across the page and reappearing store header. */
+    padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
   }
 
   .brand-link {
-    width: 136px;
+    /* Match the visible logo width, accounting for the PNG's transparent space. */
+    width: 60px;
+    min-width: 60px;
   }
 
   .menu-button {
