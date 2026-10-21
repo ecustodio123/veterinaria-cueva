@@ -218,6 +218,12 @@
   animation: slideUp 620ms ease both;
 }
 
+.hero-scrim {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.60) 34%, rgba(255, 255, 255, 0.08) 72%),
+    linear-gradient(0deg, rgba(20, 10, 4, 0.22), rgba(20, 10, 4, 0.03));
+}
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -1684,6 +1690,12 @@
   .hero-content h1,
   .page-hero h1 {
     max-width: 12ch;
+  }
+
+  .hero-scrim {
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.48)),
+      linear-gradient(0deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.05));
   }
 
   .hero-controls {
