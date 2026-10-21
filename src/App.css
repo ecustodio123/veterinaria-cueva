@@ -188,6 +188,21 @@
   transform: scale(1);
 }
 
+@media (min-width: 821px) {
+  .hero-carousel > .hero-image:first-child {
+    /* Keep the portrait's face below the fixed header on wider screens. */
+    padding-top: var(--header-height);
+    object-position: center top;
+  }
+}
+
+@media (min-width: 1081px) {
+  .hero-carousel > .hero-image:first-child {
+    left: 18%;
+    width: 82%;
+  }
+}
+
 .hero-scrim,
 .page-hero-overlay {
   position: absolute;

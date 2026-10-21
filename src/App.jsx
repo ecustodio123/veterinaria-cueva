@@ -26,6 +26,9 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import logo from './assets/img/brand/logo.png'
+import heroBienestar from './assets/img/hero/hero-bienestar.webp'
+import heroSalud from './assets/img/hero/hero-salud.webp'
+import heroCuidado from './assets/img/hero/hero-cuidado.webp'
 import { isSupabaseConfigured, supabase } from './lib/supabase'
 import { business, createWhatsappUrl, whatsappUrl } from './config/business'
 import { CURRENT_STORE_ID } from './config/store'
@@ -73,8 +76,7 @@ const heroSlides = [
     service: 'Atención veterinaria',
     eyebrow: 'Veterinaria en San Miguel',
     text: 'En Cueva te acompañamos a cuidar de quien siempre está a tu lado. Cuéntanos qué necesita tu mascota y coordinemos su atención.',
-    image:
-      'https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?auto=compress&cs=tinysrgb&w=1900',
+    image: heroBienestar,
   },
   {
     title: 'Conocer más de su salud es otra forma de cuidarlo.',
@@ -84,8 +86,7 @@ const heroSlides = [
     service: 'Ecografía veterinaria',
     eyebrow: 'Ecografía veterinaria',
     text: 'Si tu mascota necesita una ecografía, en Cueva te ayudamos a coordinar el siguiente paso. Escríbenos para conocer la disponibilidad y cómo preparar su visita.',
-    image:
-      'https://images.pexels.com/photos/6816861/pexels-photo-6816861.jpeg?auto=compress&cs=tinysrgb&w=1900',
+    image: heroSalud,
   },
   {
     title: 'Que se sienta tan bien como se ve.',
@@ -95,8 +96,7 @@ const heroSlides = [
     service: 'Baños y cuidado',
     eyebrow: 'Baño y cuidado',
     text: 'Su cuidado también está en los pequeños detalles. Pregunta por el baño antipulgas y coordinemos una visita.',
-    image:
-      'https://images.pexels.com/photos/6235233/pexels-photo-6235233.jpeg?auto=compress&cs=tinysrgb&w=1900',
+    image: heroCuidado,
   },
 ]
 
