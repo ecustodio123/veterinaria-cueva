@@ -20,7 +20,7 @@
   backdrop-filter: blur(18px);
 }
 
-.app-shell--commerce-local {
+.app-shell--commerce-embedded {
   --kafka-commerce-header-transition-duration: 180ms;
 }
 
@@ -32,7 +32,7 @@
   position: relative;
 }
 
-.app-shell--commerce-local .site-header {
+.app-shell--commerce-embedded .site-header {
   position: fixed;
   z-index: 56;
   transition: transform var(--kafka-commerce-header-transition-duration) ease;
@@ -49,10 +49,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-shell--commerce-local {
+  .app-shell--commerce-embedded {
     --kafka-commerce-header-transition-duration: 0ms;
   }
-  .app-shell--commerce-local .site-header {
+  .app-shell--commerce-embedded .site-header {
     transition: none;
   }
 }
@@ -537,7 +537,7 @@
   bottom: auto;
 }
 
-.app-shell--commerce-local .kafka-commerce-section .kc-cart-launcher {
+.app-shell--commerce-embedded .kafka-commerce-section .kc-cart-launcher {
   top: calc(var(--kafka-commerce-host-header-offset, 0px) + 12px);
 }
 

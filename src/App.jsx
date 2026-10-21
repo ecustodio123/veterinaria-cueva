@@ -141,12 +141,12 @@ const kafkaCommerceTheme = {
 function App() {
   const { pathname } = useLocation()
   const isStorePage = pathname.replace(/\/+$/, '') === '/tienda'
-  const embeddedCommerce = isStorePage && import.meta.env.DEV && import.meta.env.MODE === 'commerce-local'
+  const embeddedCommerce = isStorePage
   const commerceNavigation = useCommerceHeaderNavigation(embeddedCommerce)
 
   return (
     <div
-      className={isStorePage ? `app-shell app-shell--store${embeddedCommerce ? ' app-shell--commerce-local' : ''}` : 'app-shell'}
+      className={isStorePage ? `app-shell app-shell--store${embeddedCommerce ? ' app-shell--commerce-embedded' : ''}` : 'app-shell'}
       style={{ '--kafka-commerce-host-header-offset': `${commerceNavigation.visibleHeight}px` }}
     >
       <ScrollToTop />

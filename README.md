@@ -11,7 +11,11 @@ npm run lint
 npm run build
 ```
 
-La dependencia privada `@ecustodio123/kafka-commerce@0.2.3` se instala desde GitHub Packages mediante `GITHUB_PACKAGES_TOKEN` en el entorno. Nunca exponer ese token como variable `VITE_*`.
+La dependencia privada `@ecustodio123/kafka-commerce@0.3.0` se instala desde GitHub Packages mediante `GITHUB_PACKAGES_TOKEN` en el entorno. Nunca exponer ese token como variable `VITE_*`.
+
+La tienda usa navegación `embedded` tanto en desarrollo normal como en producción, coordinada con el header de Cueva. Los imports del paquete y de `styles.css` usan los exports estables publicados; el checkout está configurado exclusivamente para WhatsApp.
+
+`npm run dev:commerce-local` conserva la opción de usar el código local de Commerce para desarrollo. Los aliases solo se activan en ese comando de desarrollo: `npm run dev`, `npm run build` y `npm run preview` resuelven el paquete instalado desde GitHub Packages. Incluso un build con `--mode commerce-local` utiliza el paquete publicado.
 
 ## Identidad y contacto
 
