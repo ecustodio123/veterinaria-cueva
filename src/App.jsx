@@ -1,27 +1,21 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useCommerceHeaderNavigation } from './hooks/useCommerceHeaderNavigation'
+import { useServices } from './hooks/useServices'
 import { CommerceStore } from '@ecustodio123/kafka-commerce'
 import '@ecustodio123/kafka-commerce/styles.css'
 import {
-  Activity,
   ArrowLeft,
   ArrowRight,
-  Bath,
   Clock,
   HeartPulse,
   MapPin,
   MessageCircle,
   PawPrint,
   Menu,
-  Microscope,
   PackageOpen,
   Phone,
-  Scissors,
   ShieldCheck,
-  Sparkles,
   Star,
-  Stethoscope,
-  Syringe,
   X,
 } from 'lucide-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -32,17 +26,11 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import logo from './assets/img/brand/logo.png'
-import banoMascota from './assets/img/services/banoMascota.jpg'
-import grooming from './assets/img/services/grooming.jpg'
-import petShop from './assets/img/services/petShop.jpg'
-import microchip from './assets/img/services/microchip.jpg'
-import ecografia2 from './assets/img/services/ecografia2.jpg'
 import { isSupabaseConfigured, supabase } from './lib/supabase'
 import { business, createWhatsappUrl, whatsappUrl } from './config/business'
 import { CURRENT_STORE_ID } from './config/store'
 // import TypographyPreview from './components/TypographyPreview'
 import MedicalTeam from './components/MedicalTeam'
-import { medicalTeam } from './config/medicalTeam'
 import './App.css'
 
 const commerceWhatsappPhone = business.phone
@@ -119,121 +107,6 @@ const technologyContent = {
   title: 'Conocer más de su salud es otra forma de cuidarlo.',
   text: 'Si necesitas coordinar una ecografía para tu mascota, escríbenos. Consulta con el equipo la disponibilidad del servicio y las indicaciones para su atención.',
 }
-
-const services = [
-  {
-    title: 'Consulta veterinaria',
-    pendingConfirmation: true,
-    icon: Stethoscope,
-    image:
-      'https://images.pexels.com/photos/7469214/pexels-photo-7469214.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: '¿Has notado algo distinto en tu mascota o tienes dudas sobre su cuidado? Cuéntanos qué ocurre y coordinemos una consulta.',
-  },
-  {
-    title: 'Ecografía veterinaria',
-    icon: HeartPulse,
-    image:
-      'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=900&q=80',
-    text: 'Si te indicaron una ecografía, conversemos sobre cómo coordinarla y qué debes tener en cuenta antes de la visita.',
-  },
-  {
-    title: 'Cirugía veterinaria',
-    icon: Syringe,
-    image:
-      'https://images.pexels.com/photos/1350591/pexels-photo-1350591.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Cuando se habla de una cirugía, surgen preguntas. Consulta con el equipo la evaluación y las opciones de atención para tu mascota.',
-  },
-  {
-    title: 'Baño antipulgas',
-    icon: ShieldCheck,
-    image:
-      'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
-    text: 'Un momento de cuidado para tu compañero de todos los días. Pregunta por el baño antipulgas y cómo coordinar su visita.',
-  },
-  {
-    title: 'Vacunación',
-    pendingConfirmation: true,
-    icon: Activity,
-    image:
-      'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
-    text: '¿Buscas información sobre sus vacunas? Consulta con el equipo la disponibilidad de este servicio antes de coordinar tu visita.',
-  },
-  {
-    title: 'Desparasitación',
-    pendingConfirmation: true,
-    icon: Microscope,
-    image:
-      'https://images.pexels.com/photos/5731866/pexels-photo-5731866.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Cuéntanos qué necesitas saber sobre desparasitación. Consulta la atención disponible y las indicaciones para tu mascota.',
-  },
-  {
-    title: 'Baños y cortes',
-    pendingConfirmation: true,
-    icon: Scissors,
-    image:
-      'https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Conversemos sobre el cuidado de su pelaje. Pregunta por las opciones de baño y corte disponibles para tu mascota.',
-  },
-  {
-    title: 'Pet shop',
-    pendingConfirmation: true,
-    icon: Activity,
-    image:
-      'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=900&q=80',
-    text: 'El cuidado continúa en casa. Explora la tienda, prepara tu carrito y consulta tu pedido por WhatsApp.',
-  },
-  {
-    title: 'Servicio pendiente 9',
-    published: false,
-    icon: Microscope,
-    image: ecografia2,
-    text: 'Pendiente de confirmación por el cliente; no publicar.',
-  },
-  {
-    title: 'Servicio pendiente 10',
-    published: false,
-    icon: Activity,
-    image:
-      'https://images.pexels.com/photos/6235233/pexels-photo-6235233.jpeg?auto=compress&cs=tinysrgb&w=900',
-    text: 'Pendiente de confirmación por el cliente; no publicar.',
-  },
-  {
-    title: 'Servicio pendiente 11',
-    published: false,
-    icon: Sparkles,
-    image: microchip,
-    text: 'Pendiente de confirmación por el cliente; no publicar.',
-  },
-  {
-    title: 'Servicio pendiente 12',
-    published: false,
-    icon: Sparkles,
-    image: petShop,
-    text: 'Pendiente de confirmación por el cliente; no publicar.',
-  },
-  {
-    title: 'Servicio pendiente 13',
-    published: false,
-    icon: Bath,
-    image: grooming,
-    text: 'Pendiente de confirmación por el cliente; no publicar.',
-  },
-  {
-    title: 'Servicio pendiente 14',
-    published: false,
-    icon: ShieldCheck,
-    image: banoMascota,
-    text: 'Pendiente de confirmación por el cliente; no publicar.',
-  },
-  {
-    title: 'Servicio pendiente 15',
-    published: false,
-    icon: HeartPulse,
-    image:
-      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80',
-    text: 'Pendiente de confirmación por el cliente; no publicar.',
-  },
-]
 
 // Incorporar solamente reseñas verificadas y autorizadas de Veterinaria Cueva.
 const testimonials = []
@@ -318,7 +191,40 @@ function ScrollToTop() {
 
 function Header({ headerRef, hidden, onMenuOpenChange }) {
   const [open, setOpen] = useState(false)
+  const [mobile, setMobile] = useState(() => window.matchMedia('(max-width: 820px)').matches)
+  const menuRef = useRef(null)
+  const menuButtonRef = useRef(null)
   const location = useLocation()
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 820px)')
+    const update = () => {
+      setMobile(media.matches)
+      if (!media.matches) setOpen(false)
+    }
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    if (!mobile || !open) return
+    const onKeyDown = (event) => {
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      menuButtonRef.current?.focus()
+    }
+    const onPointerDown = (event) => {
+      if (menuRef.current?.contains(event.target) || menuButtonRef.current?.contains(event.target)) return
+      setOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('pointerdown', onPointerDown)
+    }
+  }, [mobile, open])
 
   useEffect(() => {
     onMenuOpenChange(open)
@@ -342,16 +248,30 @@ function Header({ headerRef, hidden, onMenuOpenChange }) {
       <div className="header-actions">
         <button
           className="menu-button"
+          ref={menuButtonRef}
           type="button"
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}
+          aria-controls="site-navigation"
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      <nav className={open ? 'main-nav is-open' : 'main-nav'}>
+      <nav
+        id="site-navigation"
+        ref={menuRef}
+        className={open ? 'main-nav is-open' : 'main-nav'}
+        inert={mobile && !open}
+        aria-hidden={mobile && !open || undefined}
+        onClick={(event) => {
+          if (mobile && event.target.closest('a')) {
+            setOpen(false)
+            menuButtonRef.current?.focus()
+          }
+        }}
+      >
         <NavLink to="/">Inicio</NavLink>
         <NavLink to="/servicios">Servicios</NavLink>
         <NavLink to="/tienda">Tienda</NavLink>
@@ -464,16 +384,22 @@ function HeroCarousel() {
 }
 
 function FeaturedServices() {
+  const { services, loading, error } = useServices()
+
   return (
-    <section className="section-wrap">
+    <section className="section-wrap services-section">
       <SectionHeading
         eyebrow="Servicios"
         title="¿Qué necesita tu mascota hoy?"
         text={servicesIntro}
       />
-      <div className="featured-grid">
-        {services.slice(0, 3).map((service) => (
-          <ServiceCard service={service} key={service.title} />
+      <div className="featured-grid" aria-busy={loading}>
+        {loading || error || services.length === 0 ? (
+          <p className="services-state" role={error ? 'alert' : 'status'}>
+            {loading ? 'Cargando servicios…' : error || 'Aún no hay servicios publicados.'}
+          </p>
+        ) : services.slice(0, 3).map((service) => (
+          <ServiceCard service={service} key={service.id} />
         ))}
       </div>
       <div className="services-more-action">
@@ -486,24 +412,21 @@ function FeaturedServices() {
 }
 
 function ServiceCard({ service }) {
-  const Icon = service.icon
+  const [failedImage, setFailedImage] = useState(null)
+  const imageUrl = service.image_url?.trim()
 
   return (
     <article className="service-card">
-      <img src={service.image} alt="" />
-      <div>
-        <span className="service-icon">
-          <Icon size={20} />
+      {imageUrl && failedImage !== imageUrl ? (
+        <img src={imageUrl} alt="" loading="lazy" onError={() => setFailedImage(imageUrl)} />
+      ) : (
+        <span className="service-image-placeholder" role="img" aria-label="Imagen no disponible">
+          Imagen no disponible
         </span>
+      )}
+      <div>
         <h3>{service.title}</h3>
-        <p>{service.text}</p>
-        {service.bullets ? (
-          <ul>
-            {service.bullets.map((bullet) => (
-              <li key={bullet}>{bullet}</li>
-            ))}
-          </ul>
-        ) : null}
+        <p>{service.description}</p>
       </div>
     </article>
   )
@@ -651,6 +574,8 @@ function TechnologySection() {
 }
 
 function ServicesPage() {
+  const { services, loading, error } = useServices()
+
   return (
     <>
       <PageHero
@@ -659,6 +584,15 @@ function ServicesPage() {
         text={servicesIntro}
         image="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=1800&q=82"
       />
+      <section className="section-wrap services-page-grid" aria-label="Servicios" aria-busy={loading}>
+        {loading || error || services.length === 0 ? (
+          <p className="services-state" role={error ? 'alert' : 'status'}>
+            {loading ? 'Cargando servicios…' : error || 'Aún no hay servicios publicados.'}
+          </p>
+        ) : services.map((service) => (
+          <ServiceCard service={service} key={service.id} />
+        ))}
+      </section>
       <TechnologySection />
       <CtaSection />
     </>
@@ -784,7 +718,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <MedicalTeam members={medicalTeam} />
+      <MedicalTeam />
 
       <section className="about-first-visit about-inner" aria-labelledby="about-visit-title">
         <div className="about-visit-copy">
@@ -897,13 +831,6 @@ function PageHero({ eyebrow, title, text, image }) {
           <p>{text}</p>
         </div>
       </section>
-      {eyebrow === 'Servicios' ? (
-        <section className="section-wrap services-page-grid">
-          {services.filter((service) => service.published !== false).map((service) => (
-            <ServiceCard service={service} key={service.title} />
-          ))}
-        </section>
-      ) : null}
     </>
   )
 }
@@ -959,9 +886,22 @@ function SocialLinks() {
 }
 
 function WhatsAppButton() {
+  const { pathname } = useLocation()
+  const isContactPage = pathname.replace(/\/+$/, '') === '/contacto'
+  const [contactCtaVisible, setContactCtaVisible] = useState(false)
+
+  useEffect(() => {
+    if (!isContactPage) return
+    const cta = document.querySelector('.contact-actions .primary-button')
+    if (!cta) return
+    const observer = new IntersectionObserver(([entry]) => setContactCtaVisible(entry.isIntersecting))
+    observer.observe(cta)
+    return () => observer.disconnect()
+  }, [isContactPage])
+
   return (
     <a
-      className="floating-whatsapp"
+      className={`floating-whatsapp${isContactPage && contactCtaVisible ? ' floating-whatsapp--contact-cta-visible' : ''}`}
       href={whatsappUrl}
       target="_blank"
       rel="noreferrer"

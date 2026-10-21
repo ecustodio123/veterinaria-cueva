@@ -43,7 +43,8 @@
   pointer-events: none;
 }
 
-.app-shell--commerce-local .site-header--menu-open {
+.site-header.site-header--menu-open {
+  /* Above Commerce controls (65), below its cart drawer (70). */
   z-index: 68;
 }
 
@@ -429,7 +430,8 @@
   transform: translateY(-5px);
 }
 
-.service-card img {
+.service-card img,
+.service-image-placeholder {
   width: 100%;
   height: 210px;
   object-fit: cover;
@@ -439,26 +441,17 @@
   padding: 24px;
 }
 
-.service-icon {
+.service-image-placeholder {
   display: grid;
-  width: 42px;
-  height: 42px;
   place-items: center;
-  margin-bottom: 18px;
-  border-radius: 50%;
-  color: var(--brand-black);
-  background: var(--red);
-  box-shadow: 0 12px 28px rgba(33, 207, 10, 0.22);
+  color: var(--muted);
+  background: var(--surface-soft);
+  font-size: 0.85rem;
 }
 
-.service-card:nth-child(even) .service-icon {
-  background: var(--orange);
-  box-shadow: 0 12px 28px rgba(199, 157, 118, 0.26);
-}
-
-.service-card:nth-child(4n) .service-icon {
-  background: var(--blue);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+.services-state {
+  grid-column: 1 / -1;
+  color: var(--muted);
 }
 
 .service-card h3 {
@@ -1560,6 +1553,12 @@
 }
 
 @media (max-width: 1080px) {
+  .services-section,
+  .services-page-grid,
+  .faq-section {
+    width: calc(100% - 32px);
+  }
+
   .featured-grid,
   .services-page-grid{
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1655,7 +1654,9 @@
 
   .hero-carousel {
     min-height: 100svh;
-    padding: calc(var(--header-height) + 36px) 18px 186px;
+    align-content: center;
+    row-gap: 24px;
+    padding: calc(var(--header-height) + 36px) 18px 24px;
   }
 
   .hero-scrim,
@@ -1671,13 +1672,16 @@
   }
 
   .hero-controls {
-    left: 12px;
-    right: 12px;
-    top: 47%;
-    bottom: auto;
+    position: static;
+    inset: auto;
+    transform: none;
   }
 
-  .hero-controls button,
+  .hero-controls button {
+    width: 44px;
+    height: 44px;
+  }
+
   .doctors-controls button,
   .team-rail-controls button {
     width: 42px;
@@ -1685,9 +1689,9 @@
   }
 
   .hero-service-tabs {
-    left: 18px;
-    right: 86px;
-    bottom: 18px;
+    position: static;
+    inset: auto;
+    width: calc(100% - 68px);
     grid-template-columns: 1fr;
   }
 
@@ -1792,7 +1796,8 @@
     grid-template-columns: 1fr;
   }
 
-  .service-card img {
+  .service-card img,
+  .service-image-placeholder {
     height: 185px;
   }
 
@@ -1855,6 +1860,13 @@
     width: 56px;
     height: 56px;
     font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-whatsapp--contact-cta-visible {
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 

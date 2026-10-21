@@ -32,6 +32,7 @@ export default defineConfig(({ command, mode, isPreview }) => {
       fs: {
         allow: [searchForWorkspaceRoot(appRoot), commerceSrc],
       },
+      allowedHosts: ['.trycloudflare.com'],
     } : undefined,
   }
 })
