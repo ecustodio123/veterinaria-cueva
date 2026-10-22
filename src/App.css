@@ -199,7 +199,8 @@
 @media (min-width: 1081px) {
   .hero-carousel > .hero-image:first-child {
     left: 18%;
-    width: 82%;
+    /* Extend past the hero to crop the white doorframe on the photo's right edge. */
+    width: 94%;
   }
 }
 
