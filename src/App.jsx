@@ -26,9 +26,12 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import logo from './assets/img/brand/logo.png'
-import heroBienestar from './assets/img/hero/hero-bienestar.webp'
+import heroBienestar from './assets/img/hero/hero-bienestar.png'
 import heroSalud from './assets/img/hero/hero-salud.webp'
 import heroCuidado from './assets/img/hero/hero-cuidado.webp'
+import heroNosotros from './assets/img/hero/nosotros_hero.png'
+import heroServicios from './assets/img/hero/hero-servicios.jpg'
+import heroTienda from './assets/img/hero/hero-tienda.jpg'
 import { isSupabaseConfigured, supabase } from './lib/supabase'
 import { business, createWhatsappUrl, whatsappUrl } from './config/business'
 import { CURRENT_STORE_ID } from './config/store'
@@ -582,7 +585,7 @@ function ServicesPage() {
         eyebrow="Servicios"
         title="Un cuidado para cada etapa."
         text={servicesIntro}
-        image="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=1800&q=82"
+        image={heroServicios}
       />
       <section className="section-wrap services-page-grid" aria-label="Servicios" aria-busy={loading}>
         {loading || error || services.length === 0 ? (
@@ -608,7 +611,7 @@ function ShopPage({ catalogRef, embeddedCommerce }) {
         eyebrow="Tienda"
         title="Cuídalo también en casa."
         text="Elige productos para tu mascota, arma tu carrito y continúa por WhatsApp. Confirma con el equipo la disponibilidad y los detalles de tu compra."
-        image="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1800&q=82"
+        image={heroTienda}
       />
       <section className="section-wrap kafka-commerce-section" ref={catalogRef}>
         {!isSupabaseConfigured || !storeId ? (
@@ -652,7 +655,7 @@ function AboutPage() {
         eyebrow="Nosotros"
         title="El cariño también se demuestra cuidando."
         text="Hay mascotas que nos reciben en la puerta, nos acompañan en silencio y nos cambian el día. En Veterinaria Cueva creemos que ese vínculo merece atención, respeto y cariño."
-        image="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=1800&q=82"
+        image={heroNosotros}
       />
       <section className="about-section about-story" aria-labelledby="about-story-title">
         <div className="about-story-visual">
