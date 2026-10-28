@@ -760,7 +760,7 @@ function AboutPage() {
           <h3>Te esperamos<br />en San Miguel.</h3>
           <dl>
             <div><dt><MapPin size={18} aria-hidden="true" />Dónde estamos</dt><dd>{business.address}</dd></div>
-            <div><dt><Clock size={18} aria-hidden="true" />Nuestro horario</dt><dd>{business.hours}</dd></div>
+            <div><dt><Clock size={18} aria-hidden="true" />Nuestro horario</dt><dd>{business.hours}<AfterHoursNote /></dd></div>
           </dl>
           <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
             <FontAwesomeIcon icon={faWhatsapp} /> Conversemos por WhatsApp
@@ -812,7 +812,7 @@ function ContactPage() {
             </div>
             <div>
               <dt><Clock size={17} />Horario de atención</dt>
-              <dd>{businessHours}</dd>
+              <dd>{businessHours}<AfterHoursNote /></dd>
             </div>
           </dl>
           <div className="contact-socials">
@@ -859,6 +859,15 @@ function SectionHeading({ eyebrow, title, text }) {
   )
 }
 
+function AfterHoursNote() {
+  return (
+    <span className="after-hours-note">
+      {business.afterHoursNote}{' '}
+      <a href={`tel:+${business.phone}`}>{phoneDisplay}</a>.
+    </span>
+  )
+}
+
 function Footer() {
   const year = useMemo(() => new Date().getFullYear(), [])
 
@@ -874,6 +883,7 @@ function Footer() {
         <a href={whatsappUrl} target="_blank" rel="noreferrer">
           {phoneDisplay}{!business.confirmed.phone ? ' (por confirmar)' : ''}
         </a>
+        <AfterHoursNote />
       </div>
       <div className="footer-links">
         <nav>

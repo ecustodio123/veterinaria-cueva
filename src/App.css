@@ -1459,6 +1459,20 @@
   font-weight: 900;
 }
 
+.after-hours-note {
+  display: block;
+  max-width: 44ch;
+  margin-top: 8px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.after-hours-note a {
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .footer-links {
   display: grid;
   justify-items: end;

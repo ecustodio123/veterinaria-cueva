@@ -7,6 +7,7 @@ export const business = {
   phone: '51992709298',
   phoneDisplay: '+51 992 709 298',
   hours: 'Lunes a sábado, de 9:00 a. m. a 6:00 p. m.',
+  afterHoursNote: 'Para emergencias o atención fuera de horario, incluidos domingos y feriados, coordina previamente al',
   confirmed: { address: true, phone: true, hours: true },
   whatsappMessage: 'Hola, quisiera consultar por la atención para mi mascota en Veterinaria Cueva.',
   instagram: 'https://www.instagram.com/veterinariacuevaperu/',
