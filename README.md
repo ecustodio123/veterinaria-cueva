@@ -65,3 +65,7 @@ No se ha realizado commit, push ni deploy. Confirmar los servicios históricos y
 ## Comparar tipografías
 
 En desarrollo, el botón **Tipografías** de la esquina inferior izquierda permite alternar entre la tipografía actual y dos propuestas gratuitas. La elección se guarda solo en ese navegador. Para fijar la versión publicada, editar `DEFAULT_TYPOGRAPHY` en `src/config/typography.js`. [Instrucciones, propuestas y licencias](docs/TIPOGRAFIAS.md).
+
+## SEO y conexión con Google
+
+El SEO usa el dominio confirmado `https://veterinariacueva.com/`. Cada build genera metadatos por ruta, datos estructurados, robots y sitemap. Ver [configuración, validación del hosting y pasos de Search Console/Analytics](docs/SEO.md) antes de publicar.

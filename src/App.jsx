@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useCommerceHeaderNavigation } from './hooks/useCommerceHeaderNavigation'
 import { useServices } from './hooks/useServices'
+import Seo from './components/Seo'
 import { CommerceStore } from '@ecustodio123/kafka-commerce'
 import '@ecustodio123/kafka-commerce/styles.css'
 import {
@@ -153,6 +154,7 @@ function App() {
       style={{ '--kafka-commerce-host-header-offset': `${commerceNavigation.visibleHeight}px` }}
     >
       <ScrollToTop />
+      <Seo />
       <div className={embeddedCommerce ? 'site-header-slot' : undefined}>
         <Header
           headerRef={commerceNavigation.headerRef}
@@ -169,6 +171,13 @@ function App() {
             <Route path="/tiendas-prueba" element={<Navigate to="/tienda" replace />} />
             <Route path="/nosotros" element={<AboutPage />} />
             <Route path="/contacto" element={<ContactPage />} />
+            <Route path="*" element={
+              <section className="section-wrap" style={{ paddingBlock: 'calc(var(--header-height) + 48px)' }}>
+                <h1>Página no encontrada</h1>
+                <p>La página que buscas no existe.</p>
+                <NavLink to="/">Volver al inicio</NavLink>
+              </section>
+            } />
           </Routes>
         </PageTransition>
       </main>
@@ -341,6 +350,8 @@ function HeroCarousel() {
           src={item.image}
           alt=""
           key={item.service}
+          fetchPriority={index === 0 ? 'high' : 'low'}
+          decoding="async"
         />
       ))}
       <div className="hero-scrim" />

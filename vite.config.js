@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
 import { defineConfig, searchForWorkspaceRoot } from 'vite'
 import react from '@vitejs/plugin-react'
+import { seoPlugin } from './build/seo.js'
 
 const appRoot = fileURLToPath(new URL('.', import.meta.url))
 const commerceSrc = resolve(appRoot, '../../kafka-commerce/src')
@@ -11,7 +12,7 @@ export default defineConfig(({ command, mode, isPreview }) => {
     command === 'serve' && !isPreview && mode === 'commerce-local'
 
   return {
-    plugins: [react()],
+    plugins: [react(), seoPlugin()],
     resolve: {
       dedupe: ['react', 'react-dom', '@supabase/supabase-js'],
       alias: useLocalCommerce ? [
