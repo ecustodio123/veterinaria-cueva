@@ -1,7 +1,7 @@
 import { business } from './business.js'
 
 export const siteUrl = 'https://veterinariacueva.com'
-export const socialImage = `${siteUrl}/social-cueva.webp`
+export const socialImage = `${siteUrl}/social-logo-cueva.png`
 export const seoPages = {
   '/': {
     title: 'Veterinaria Cueva | Veterinaria en San Miguel, Lima',
@@ -62,14 +62,15 @@ export function getSeoTags(pathname) {
     ['meta', { property: 'og:title', content: seo.title }],
     ['meta', { property: 'og:description', content: seo.description }],
     ['meta', { property: 'og:image', content: socialImage }],
-    ['meta', { property: 'og:image:width', content: '2400' }],
-    ['meta', { property: 'og:image:height', content: '1350' }],
-    ['meta', { property: 'og:image:alt', content: 'Veterinaria Cueva: atención y cuidado de mascotas' }],
-    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { property: 'og:image:type', content: 'image/png' }],
+    ['meta', { property: 'og:image:width', content: '3375' }],
+    ['meta', { property: 'og:image:height', content: '4219' }],
+    ['meta', { property: 'og:image:alt', content: 'Logo de Veterinaria Cueva' }],
+    ['meta', { name: 'twitter:card', content: 'summary' }],
     ['meta', { name: 'twitter:title', content: seo.title }],
     ['meta', { name: 'twitter:description', content: seo.description }],
     ['meta', { name: 'twitter:image', content: socialImage }],
-    ['meta', { name: 'twitter:image:alt', content: 'Veterinaria Cueva: atención y cuidado de mascotas' }],
+    ['meta', { name: 'twitter:image:alt', content: 'Logo de Veterinaria Cueva' }],
     ...(seo.canonical ? [
       ['link', { rel: 'canonical', href: seo.canonical }],
       ['meta', { property: 'og:url', content: seo.canonical }],
